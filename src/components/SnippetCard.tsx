@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
+import React from "react";
 
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 
-function SnippetCard({ snippets }) {
+import { Snippet } from "../types";
+
+function SnippetCard({ snippets }: { snippets: Snippet[] }) {
   return (
     <Row className="g-4 mt-3">
       {snippets.map((snippet) => (

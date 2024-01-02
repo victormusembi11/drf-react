@@ -1,22 +1,24 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import SnippetsForm from "./components/SnippetsForm";
 import SnippetCard from "./components/SnippetCard";
 
+import { Snippet } from "./types";
+
 export default function Snippets() {
-  const [snippet, setSnippet] = useState({
+  const [snippet, setSnippet] = useState<Snippet>({
     title: "",
     code: "",
     linenos: false,
     language: "",
     style: "",
   });
-  const [snippets, setSnippets] = useState([]);
+  const [snippets, setSnippets] = useState<Snippet[]>([]);
 
   const fetchSnippets = useCallback(async () => {
     try {
       const res = await fetch("http://127.0.0.1:8000/snippets/");
-      const data = await res.json();
+      const data: Snippet[] = await res.json();
 
       setSnippets(data);
     } catch (error) {
@@ -28,8 +30,10 @@ export default function Snippets() {
     fetchSnippets();
   }, [fetchSnippets]);
 
-  function handleOnChange(event) {
-    const { name, value, checked } = event.target;
+  function handleOnChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void {
+    const { name, value, checked } = event.target as HTMLInputElement;
 
     setSnippet((prevSnippet) => ({
       ...prevSnippet,
@@ -37,7 +41,11 @@ export default function Snippets() {
     }));
   }
 
-  async function handleOnSubmit(event) {
+  async function handleOnSubmit(
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> {
     event.preventDefault();
 
     try {

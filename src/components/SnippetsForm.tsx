@@ -1,9 +1,24 @@
 /* eslint-disable react/prop-types */
+import React from "react";
 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-export default function SnippetsForm({ handleOnChange, handleOnSubmit }) {
+interface SnippetFormProps {
+  handleOnChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  handleOnSubmit: (
+    event:
+      | React.FormEvent<HTMLFormElement>
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+}
+
+export default function SnippetsForm({
+  handleOnChange,
+  handleOnSubmit,
+}: SnippetFormProps) {
   return (
     <Form>
       <Form.Group className="mb-3">
