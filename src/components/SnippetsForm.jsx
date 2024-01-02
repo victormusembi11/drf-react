@@ -1,83 +1,58 @@
-import { useState } from "react";
+/* eslint-disable react/prop-types */
 
-export default function SnippetsForm() {
-  const [snippet, setSnippet] = useState({
-    title: "",
-    code: "",
-    linenos: false,
-    language: "",
-    style: "",
-  });
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
-  function handleOnChange(event) {
-    const { name, value, checked } = event.target;
-
-    setSnippet((prevSnippet) => ({
-      ...prevSnippet,
-      [name]: name === "linenos" ? checked : value,
-    }));
-  }
-
-  async function handleOnSubmit(event) {
-    event.preventDefault();
-
-    try {
-      await fetch("http://127.0.0.1:8000/snippets/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(snippet),
-      });
-
-      setSnippet({
-        title: "",
-        code: "",
-        linenos: false,
-        language: "",
-        style: "",
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
+export default function SnippetsForm({ handleOnChange, handleOnSubmit }) {
   return (
-    <form method="post">
-      <h2>Create snippet</h2>
-      <input
-        type="text"
-        name="title"
-        onChange={handleOnChange}
-        placeholder="Title"
-      />
-      <br />
-      <textarea
-        name="code"
-        onChange={handleOnChange}
-        placeholder="Code"
-      ></textarea>
-      <br />
-      <label htmlFor="linenos">Line numbers</label>
-      <input type="checkbox" name="linenos" onChange={handleOnChange} />
-      <br />
-      <input
-        type="text"
-        name="language"
-        onChange={handleOnChange}
-        placeholder="Language"
-      />
-      <br />
-      <input
-        type="text"
-        name="style"
-        onChange={handleOnChange}
-        placeholder="Style"
-      />
-      <br />
-      <button type="submit" onClick={handleOnSubmit}>
+    <Form>
+      <Form.Group className="mb-3">
+        <Form.Label>Code</Form.Label>
+        <Form.Control
+          type="text"
+          name="title"
+          onChange={handleOnChange}
+          placeholder="Enter Title"
+        />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Code</Form.Label>
+        <Form.Control
+          as="textarea"
+          name="code"
+          onChange={handleOnChange}
+          placeholder="Enter Code"
+        />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Check
+          type="checkbox"
+          name="linenos"
+          onChange={handleOnChange}
+          label="Line numbers"
+        />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Language</Form.Label>
+        <Form.Control
+          type="text"
+          name="language"
+          onChange={handleOnChange}
+          placeholder="Enter Language"
+        />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Style</Form.Label>
+        <Form.Control
+          type="text"
+          name="style"
+          onChange={handleOnChange}
+          placeholder="Enter Style"
+        />
+      </Form.Group>
+      <Button variant="primary" type="submit" onClick={handleOnSubmit}>
         Submit
-      </button>
-    </form>
+      </Button>
+    </Form>
   );
 }
